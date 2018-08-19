@@ -141,4 +141,21 @@ class ParticipateInForumTest extends TestCase
 
 
     }
+
+    /** @test */
+
+    function user_may_only_reply_once_in_two_minutes()
+    {
+         $this->signIn();
+
+         $thread = create('App\Thread');
+
+            $reply = make('App\Reply', [
+            'body' => 'My reply'
+            ]);
+
+            $this->post($thread->path() . '/replies/', $reply->toArray())
+                ->assertStatus(200);
+    }
+
 }
