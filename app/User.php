@@ -27,7 +27,10 @@ class User extends Authenticatable
         'password', 'remember_token', 'email'
     ];
 
-
+    public function lastReply()
+    {
+      return $this->hasOne('App\Reply')->latest();
+    }
    public function getRouteKeyName()
    {
         return 'name';

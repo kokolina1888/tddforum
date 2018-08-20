@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -156,6 +157,18 @@ class ParticipateInForumTest extends TestCase
 
             $this->post($thread->path() . '/replies/', $reply->toArray())
                 ->assertStatus(200);
+
+            $this->post($thread->path() . '/replies/', $reply->toArray())
+                ->assertStatus(422);
+    }
+
+     /** @test */
+    function it_knows_if_it_was_just_published()
+    {
+        $reply = create('App\Reply');
+        $this->assertTrue($reply->wasJustPublished());
+        $reply->created_at = Carbon::now()->subMonth();
+        $this->assertFalse($reply->wasJustPublished());
     }
 
 }

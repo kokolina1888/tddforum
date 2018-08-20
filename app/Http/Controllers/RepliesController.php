@@ -43,6 +43,7 @@ class RepliesController extends Controller
     public function store($channelId, Thread $thread, Spam $spam)
     {
         try {
+            // $this->authorize('create', new Reply);
             $this->validate(request(), ['body' => 'required|spamfree']);
     
             // $spam->detect(request('body'));
